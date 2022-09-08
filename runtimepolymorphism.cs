@@ -1,43 +1,76 @@
 
 
-    class TataCar
+class TataCar
+{
+    //Dependency
+    //RevtronEngine _engine = new RevtronEngine(); //composition
+    public void Ignite(Engine _engine)
     {
-        //Dependency
-        RevtronEngine _engine = new RevtronEngine(); //composition
-        public void Ignite()
-        {
-            _engine.Start();
-        }
-        public void Halt()
-        {
-            _engine.Stop();
-        }
+        _engine.Start();
     }
-    class RevtronEngine
+    public void Halt(Engine _engine)
     {
-        public void Start() { }
-        public void Stop() { }
+        _engine.Stop();
     }
-    class VericoreEngine
+}
+    public class Engine
     {
 
-    }
-    class KrytoechEngine
-    {
 
+    void Start();
+    void Stop();
+}
+
+    class RevtronEngine: Engine
+    {
+        public void Start() { 
     }
+        public void Stop() { 
+    }
+    }
+    class VericoreEngine: Engine
+    {
+    public void Start()
+    {
+    }
+    public void Stop()
+    {
+    }
+
+}
+    class KrytoechEngine: Engine
+    {
+    public void Start()
+    {
+    }
+    public void Stop()
+    {
+    }
+
+}
     internal class Program
     {
         static void Main(string[] args)
         {
             TataCar _nexon = new TataCar();
-            _nexon.Ignite();
+         Engine _parentInstance = new Engine();
 
-            TataCar _harrier = new TataCar(); //Kryotech engine
+        _parentInstance = new RevtronEngine(); //Runtime Polymorphism
+        _nexon.iginte(_parentInstance);
 
-            TataCar _hexa = new TataCar();//vericore engine
+        TataCar _harrier = new TataCar(); //Kryotech engine
+        _parentInstance = new KrytoechEngine(); //Runtime Polymorphism
+        _harrier.ignite(_parentInstance);
 
-            FamilyOccassion _family = new FamilyOccassion();
+        TataCar _hexa = new TataCar();//vericore engine
+        _parentInstance = new VericoreEngine(); //Runtime Polymorphism
+        _hexa.ignite(_parentInstance);
+
+
+
+
+
+        FamilyOccassion _family = new FamilyOccassion();
             Parent _parentInstance = new Parent();
             _family.Visit(_parentInstance);
 
